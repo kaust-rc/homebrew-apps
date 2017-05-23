@@ -1,6 +1,7 @@
 #!groovy
 
-def nodes = ['xenial', 'trusty', 'centos7', 'centos6']
+def nodes = ['xenial']
+//def nodes = ['xenial', 'trusty', 'centos7', 'centos6']
 def builds = [:]
 
 
