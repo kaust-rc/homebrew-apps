@@ -28,7 +28,8 @@ class Weather < Formula
     #system "make", "install" # if this fails, try separate make/make install steps
   end
 
-  #test do
+  test do
+    assert File.exist?("#{bin}/weather")
     # `test do` will create, run in and delete a temporary directory.
     #
     # This test will fail and we won't accept that! It's enough to just replace
@@ -39,5 +40,5 @@ class Weather < Formula
     # The installed folder is not in the path, so use the entire path to any
     # executables being tested: `system "#{bin}/program", "do", "something"`.
    # system "false"
-  #end
+  end
 end
