@@ -11,22 +11,9 @@ for (x in nodes) {
     // Create a map to pass in to the 'parallel' step so we can fire all the builds at once
     builds[mynode] = {
         node(mynode) {
-            stage('Build') {
-                sh 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/kaust-rc/install/master/install)"'
-                sh "brew tap homebrew/test-bot"
-            }
-
-            stage('Checkout Source') {
-                checkout scm
-            }
-
             stage('Test') {
                 sh 'brew test-bot --tap=kaust-rc/apps'
                 junit 'brew-test-bot.xml'
-            }
-
-            stage('Cleanup') {
-                sh "rm -rf $HOME/.linuxbrew"
             }
         }
         post {
