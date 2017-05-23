@@ -11,8 +11,8 @@ for (x in nodes) {
     builds[mynode] = {
         node(mynode) {
             stage('Build') {
-                sh 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install)"'
-                sh "brew install test-bot"
+                sh 'ruby -e "$(curl -fsSL https://raw.githubusercontent.com/kaust-rc/install/master/install)"'
+                sh "brew tap homebrew/test-bot"
             }
 
             stage('Checkout Source') {
