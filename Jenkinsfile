@@ -1,9 +1,7 @@
 #!groovy
 
-//def nodes = ['xenial']
 def nodes = ['xenial', 'trusty', 'centos7', 'centos6']
 def builds = [:]
-
 
 for (x in nodes) {
     def mynode = x
@@ -18,13 +16,13 @@ for (x in nodes) {
         }
         post {
             success {
-                slackSend color: 'good', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) was successfully built. Link to build: ${env.BUILD_URL}.'
+                slackSend channel: '#apps_folks', color: 'good', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) was successfully built. Link to build: ${env.BUILD_URL}.'
             }
             failure {
-                slackSend color: 'bad', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) failed; please look into it now! Link to build: ${env.BUILD_URL}.'
+                slackSend channel: '#apps_folks', color: 'bad', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) failed; please look into it now! Link to build: ${env.BUILD_URL}.'
             }
             unstable {
-                slackSend color: 'warning', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) is unstable; someone should check ASAP. Link to build: ${env.BUILD_URL}.'
+                slackSend channel: '#apps_folks', color: 'warning', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) is unstable; someone should check ASAP. Link to build: ${env.BUILD_URL}.'
             }
         }
     }
