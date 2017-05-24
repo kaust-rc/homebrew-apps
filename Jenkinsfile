@@ -16,13 +16,13 @@ for (x in nodes) {
         }
         post {
             success {
-                slackSend channel: '#apps_folks', color: 'good', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) was successfully built. Link to build: ${env.BUILD_URL}.'
+                slackSend channel: '#devops', color: 'good', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) was successfully built. Link to build: ${env.BUILD_URL}.'
             }
             failure {
-                slackSend channel: '#apps_folks', color: 'bad', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) failed; please look into it now! Link to build: ${env.BUILD_URL}.'
+                slackSend channel: '#devops', color: 'bad', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) failed; please look into it now! Link to build: ${env.BUILD_URL}.'
             }
             unstable {
-                slackSend channel: '#apps_folks', color: 'warning', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) is unstable; someone should check ASAP. Link to build: ${env.BUILD_URL}.'
+                slackSend channel: '#devops', color: 'warning', message: '${env.JOB_NAME} (${env.BUILD_NUMBER}) is unstable; someone should check ASAP. Link to build: ${env.BUILD_URL}.'
             }
         }
     }
