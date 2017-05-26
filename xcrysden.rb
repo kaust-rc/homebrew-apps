@@ -15,6 +15,8 @@ class Xcrysden < Formula
   end
 
   test do
+
     assert File.exist?("#{bin}/xcrysden")
+
   end
 end
