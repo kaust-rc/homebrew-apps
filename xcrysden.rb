@@ -5,13 +5,12 @@ class Xcrysden < Formula
   sha256 "24e78f984d1ddae6d53f360639202e13782684a186b8a07c83d0c82471698553"
 
   bottle :unneeded
+
   def install
     bin.install "xcrysden"
   end
 
   test do
-
     assert File.exist?("#{bin}/xcrysden")
-
   end
 end
