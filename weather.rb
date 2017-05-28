@@ -20,6 +20,8 @@ class Weather < Formula
   test do
 
     assert File.exist?("#{bin}/weather")
-
+    output = "weather > testfile"
+    system output
+    assert File.exist?("testfile")
   end
 end
