@@ -49,6 +49,7 @@ parallel builds
 
 def notifyBuild(String buildStatus = 'SUCCESSFUL') {
     // Default values
+    buildStatus = buildStatus == null? 'SUCCESSFUL' : buildStatus
     def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def summary = "${subject} (${env.BUILD_URL})"
 
