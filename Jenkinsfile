@@ -16,7 +16,7 @@ for (x in nodes) {
                         sh "brew tap kaust-rc/apps"
                     }
                 }
-                sh "chmod 600 /home/jenkins/.linuxbrew/Library/Taps/kaust-rc/homebrew-apps/*.rb"
+                sh "chmod 644 /home/jenkins/.linuxbrew/Library/Taps/kaust-rc/homebrew-apps/*.rb"
             }
 
             stage('Test') {
