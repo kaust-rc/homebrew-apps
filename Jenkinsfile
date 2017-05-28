@@ -37,27 +37,27 @@ for (x in nodes) {
                 notifyBuild(currentBuild.result)
             }
         }
-
-        def notifyBuild(String buildStatus = 'SUCCESSFUL') {
-            // Default values
-            def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-            def summary = "${subject} (${env.BUILD_URL})"
-
-            // Override default values based on build status
-            if (buildStatus == 'UNSTABLE') {
-                color = 'warning'
-            }
-            else if (buildStatus == 'SUCCESSFUL') {
-                color = 'good'
-            }
-            else {
-                color = 'bad'
-            }
-
-            // Send notifications
-            slackSend (channel: '#devops', color: color, message: summary)
-        }
     }
 }
 
 parallel builds
+
+def notifyBuild(String buildStatus = 'SUCCESSFUL') {
+    // Default values
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def summary = "${subject} (${env.BUILD_URL})"
+
+    // Override default values based on build status
+    if (buildStatus == 'UNSTABLE') {
+        color = 'warning'
+    }
+    else if (buildStatus == 'SUCCESSFUL') {
+        color = 'good'
+    }
+    else {
+        color = 'bad'
+    }
+
+    // Send notifications
+    slackSend (channel: '#devops', color: color, message: summary)
+}
