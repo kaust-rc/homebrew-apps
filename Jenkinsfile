@@ -12,7 +12,7 @@ for (x in nodes) {
         node(mynode) {
             stage('Test') {
                 timeout(time: 5, unit: 'HOURS') {
-                    withEnv(["PATH=~/.linuxbrew/bin:$PATH", 'HOMEBREW_DEVELOPER=1']) {
+                    withEnv(["PATH=/home/jenkins/.linuxbrew/bin:/usr/bin:/bin:/usr/sbin:/sbin", 'HOMEBREW_DEVELOPER=1']) {
                         sh "brew test-bot --tap=kaust-rc/apps --junit --keep-logs *"
                         junit 'brew-test-bot.xml'
                     }
