@@ -11,18 +11,23 @@ for (x in nodes) {
     builds[mynode] = {
         node(mynode) {
             try {
+                brew_home = "/home/jenkins/.linuxbrew"
+                brew_bin = "${brew_home}/bin"
+                kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
+                safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
+
                 stage('Prepare') {
                     timeout(time: 10, unit: 'MINUTES') {
-                        withEnv(["PATH=/home/jenkins/.linuxbrew/bin:/usr/bin:/bin:/usr/sbin:/sbin", 'HOMEBREW_DEVELOPER=1']) {
+                        withEnv(["PATH=${safe_path}"]) {
                             sh "brew tap kaust-rc/apps"
                         }
                     }
-                    sh "chmod 644 /home/jenkins/.linuxbrew/Library/Taps/kaust-rc/homebrew-apps/*.rb"
+                    sh "chmod 644 ${kaust_tap}/*.rb"
                 }
 
                 stage('Test') {
                     timeout(time: 1, unit: 'HOURS') {
-                        withEnv(["PATH=/home/jenkins/.linuxbrew/bin:/usr/bin:/bin:/usr/sbin:/sbin", 'HOMEBREW_DEVELOPER=1']) {
+                        withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
                             sh "brew test-bot --tap=kaust-rc/apps --junit weather"
                         }
                         junit 'brew-test-bot.xml'
@@ -49,13 +54,13 @@ def notifyBuild(String buildStatus = 'SUCCESSFUL') {
 
     // Override default values based on build status
     if (buildStatus == 'UNSTABLE') {
-        color = 'warning'
+        color = '#FFFF00'
     }
     else if (buildStatus == 'SUCCESSFUL') {
-        color = 'good'
+        color = '#00FF00'
     }
     else {
-        color = 'bad'
+        color = '#FF0000'
     }
 
     // Send notifications
