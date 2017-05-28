@@ -1,6 +1,7 @@
 #!groovy
 
-def nodes = ['xenial', 'trusty', 'centos7', 'centos6']
+//def nodes = ['ubuntu14', 'ubuntu16', 'centos6', 'centos7']
+def nodes = ['ubuntu14']
 def builds = [:]
 
 for (x in nodes) {
@@ -10,7 +11,7 @@ for (x in nodes) {
     builds[mynode] = {
         node(mynode) {
             stage('Test') {
-                sh 'brew test-bot --tap=kaust-rc/apps'
+                sh 'brew test-bot --tap=kaust-rc/apps --junit'
                 junit 'brew-test-bot.xml'
             }
         }
