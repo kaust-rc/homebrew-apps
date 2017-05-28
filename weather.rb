@@ -1,7 +1,3 @@
-# Documentation: http://docs.brew.sh/Formula-Cookbook.html
-#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-
 class Weather < Formula
   desc "A command line tool to retrieve local weather"
   homepage "https://github.com/TheHipbot/weather"
