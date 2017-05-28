@@ -11,7 +11,7 @@ for (x in nodes) {
     builds[mynode] = {
         node(mynode) {
             stage('Test') {
-                sh '. ~/.profile && brew test-bot --tap=kaust-rc/apps --junit'
+                sh '. ~/.bashrc && brew test-bot --tap=kaust-rc/apps --junit'
                 junit 'brew-test-bot.xml'
             }
         }
