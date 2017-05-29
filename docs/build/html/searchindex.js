@@ -1,1 +1,1 @@
-Search.setIndex({docnames:["index"],envversion:52,filenames:["index.rst"],objects:{},objnames:{},objtypes:{},terms:{index:0,modul:0,page:0,search:0},titles:["KAUST Applications Docs"],titleterms:{applic:0,brew:[],doc:0,document:[],indic:0,kaust:0,tabl:0,welcom:[]}})
+Search.setIndex({docnames:["index"],envversion:52,filenames:["index.rst"],objects:{},objnames:{},objtypes:{},terms:{index:0,modul:0,page:0,search:0},titles:["KAUST Applications"],titleterms:{applic:0,indic:0,kaust:0,tabl:0}})
