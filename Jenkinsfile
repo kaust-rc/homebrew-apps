@@ -1,7 +1,7 @@
 #!groovy
 
 //def nodes = ['ubuntu14', 'ubuntu16', 'centos6', 'centos7']
-def nodes = ['ubuntu14']
+def nodes = ['ubuntu14', 'ubuntu16']
 def builds = [:]
 
 for (x in nodes) {
@@ -17,7 +17,7 @@ for (x in nodes) {
                 safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
 
                 stage('Prepare') {
-                    timeout(time: 10, unit: 'MINUTES') {
+                    timeout(time: 30, unit: 'MINUTES') {
                         withEnv(["PATH=${safe_path}"]) {
                             sh "brew tap kaust-rc/apps"
                         }
