@@ -1,7 +1,7 @@
 #!groovy
 
 //def nodes = ['ubuntu14', 'ubuntu16', 'centos6', 'centos7']
-def nodes = ['ubuntu14', 'ubuntu16']
+def nodes = ['ubuntu14', 'ubuntu16', 'centos7']
 def builds = [:]
 
 for (x in nodes) {
