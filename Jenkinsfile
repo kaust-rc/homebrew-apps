@@ -39,7 +39,7 @@ for (x in nodes) {
                 throw e
             }
             finally {
-                notifyBuild(currentBuild.result)
+                notifyBuild(mynode, currentBuild.result)
             }
         }
     }
@@ -47,10 +47,11 @@ for (x in nodes) {
 
 parallel builds
 
-def notifyBuild(String buildStatus = 'SUCCESSFUL') {
+def notifyBuild(String nodeName, String buildStatus) {
     // Default values
+    nodeName = nodeName == null? 'Unknown Node' : nodeName
     buildStatus = buildStatus == null? 'SUCCESSFUL' : buildStatus
-    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' on node ${nodeName}"
     def summary = "${subject} (${env.BUILD_URL})"
 
     // Override default values based on build status
