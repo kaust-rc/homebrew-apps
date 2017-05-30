@@ -31,7 +31,7 @@ for (x in nodes) {
                     buildStatus = "TESTING"
                     timeout(time: 1, unit: 'HOURS') {
                         withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                            def formulae = sh script: "for f in `ls ${kaust_tap}/*.rb`; do basename $f; done", returnStdout: true
+                            def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
 
                             println "Formulae to test: ${formulae}"
 
