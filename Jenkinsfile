@@ -19,7 +19,7 @@ for (x in nodes) {
                 buildStatus = "PREPARING"
 
                 stage('Prepare') {
-                    timeout(time: 30, unit: 'MINUTES') {
+                    timeout(time: 1, unit: 'HOURS') {
                         withEnv(["PATH=${safe_path}"]) {
                             sh "brew tap kaust-rc/apps"
                         }
@@ -29,7 +29,7 @@ for (x in nodes) {
 
                 stage('Test') {
                     buildStatus = "TESTING"
-                    timeout(time: 1, unit: 'HOURS') {
+                    timeout(time: 4, unit: 'HOURS') {
                         withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
                             def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
 
