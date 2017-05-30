@@ -15,14 +15,14 @@ Here's an example on how to install Xcrysden:
 
     $ brew install xcrysden
 
-Ask the Experts
+Documentation
 ----------------
 
-### Documentation
+### Read the docs
 
 [**Full documentation**](https://kaust-apps.readthedocs.io/) for KAUST Apps is the first place to look.
 
-### Interact with us
+### Ask the experts
 
 Ask questions, request new software, open issues, get answers from your peers using Slack:
 
