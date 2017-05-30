@@ -3,14 +3,14 @@
 [![Read the Docs](https://readthedocs.org/projects/kaust-apps/badge/?version=latest)](https://kaust-apps.readthedocs.io)
 
 KAUST Homebrew Apps delivers easy installation of applications in user's HOME.
-The Formulae included here are built based on [![Linuxbrew](http://linuxbrew.sh/)].
+The Formulae included here are built based on ![Linuxbrew](http://linuxbrew.sh/).
 
 Research Computing has already setup brew for you in your HOME. This allows you
 to install applications when you need them without having to  wait on Research
 Computing to compile, test, install it in a shared folder. This is already done
 using automated builds. Available packages have already been thoroughly QA-ed.
 
-You can start using brew as described in detail on [![Linuxbrew](http://linuxbrew.sh/)].
+You can start using brew as described in detail on ![Linuxbrew](http://linuxbrew.sh/).
 Here's an example on how to install Xcrysden:
 
     $ brew install xcrysden
