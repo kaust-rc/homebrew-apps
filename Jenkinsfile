@@ -31,7 +31,8 @@ for (x in nodes) {
                     buildStatus = "TESTING"
                     timeout(time: 1, unit: 'HOURS') {
                         withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                            def formulae = findFormulae()
+                            def formulae = sh script: '${kaust_tap}/*.rb', returnStdout: true
+
                             println "Formulae to test: ${formulae}"
 
                             sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup ${formulae}"
@@ -54,13 +55,6 @@ for (x in nodes) {
 }
 
 parallel builds
-
-@NonCPS
-def findFormulae() {
-    return new File( "${kaust_tap}" ).list()
-                                     .findAll { it.endsWith( '.rb' ) }
-                                     .collect { it[ 0..-4 ] }
-}
 
 def notifyBuild(String nodeName, String buildStatus) {
     // Default values
