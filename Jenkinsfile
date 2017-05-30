@@ -31,7 +31,13 @@ for (x in nodes) {
                     buildStatus = "TESTING"
                     timeout(time: 1, unit: 'HOURS') {
                         withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                            sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup weather xcrysden"
+                            formulae = new File( ${kaust_tap} ).list()
+                                                         .findAll { it.endsWith( '.rb' ) }
+                                                         .collect { it[ 0..-4 ] }
+
+                            println "Formulae to test: ${formulae}"
+
+                            sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup ${formulae}"
                         }
                         junit 'brew-test-bot.xml'
                     }
