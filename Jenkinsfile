@@ -57,9 +57,9 @@ parallel builds
 
 @NonCPS
 def findFormulae() {
-    return new File( kaust_tap ).list()
-                                .findAll { it.endsWith( '.rb' ) }
-                                .collect { it[ 0..-4 ] }
+    return new File( "${kaust_tap}" ).list()
+                                     .findAll { it.endsWith( '.rb' ) }
+                                     .collect { it[ 0..-4 ] }
 }
 
 def notifyBuild(String nodeName, String buildStatus) {
