@@ -2,6 +2,9 @@
 
 # Let's see where we're running
 myroot=$(cd "$(dirname "$0")"; pwd)
+cd "${myroot}"
 
 # List all formulae ending in .rb in this folder
-for f in `ls "${myroot}/*.rb"`; do basename $f; done
+for f in *.rb; do
+    basename $f
+done
