@@ -5,6 +5,10 @@ myroot=$(cd "$(dirname "$0")"; pwd)
 cd "${myroot}"
 
 # List all formulae ending in .rb in this folder
+output=""
 for f in *.rb; do
-    basename $f
+    output+="$(basename $f) "
 done
+
+output=${output% }
+echo "${output}"
