@@ -31,9 +31,9 @@ for (x in nodes) {
                     buildStatus = "TESTING"
                     timeout(time: 1, unit: 'HOURS') {
                         withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                            formulae = new File( ${kaust_tap} ).list()
-                                                         .findAll { it.endsWith( '.rb' ) }
-                                                         .collect { it[ 0..-4 ] }
+                            formulae = new File( kaust_tap ).list()
+                                                            .findAll { it.endsWith( '.rb' ) }
+                                                            .collect { it[ 0..-4 ] }
 
                             println "Formulae to test: ${formulae}"
 
