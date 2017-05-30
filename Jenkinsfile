@@ -16,6 +16,8 @@ for (x in nodes) {
                 kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
                 safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
 
+                buildStatus = "PREPARING"
+
                 stage('Prepare') {
                     timeout(time: 30, unit: 'MINUTES') {
                         withEnv(["PATH=${safe_path}"]) {
@@ -26,6 +28,7 @@ for (x in nodes) {
                 }
 
                 stage('Test') {
+                    buildStatus = "TESTING"
                     timeout(time: 1, unit: 'HOURS') {
                         withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
                             sh "brew test-bot --tap=kaust-rc/apps --junit weather"
@@ -33,13 +36,15 @@ for (x in nodes) {
                         junit 'brew-test-bot.xml'
                     }
                 }
+
+                buildStatus = "SUCCESSFUL"
             }
             catch(e) {
-                currentBuild.result = "FAILED"
+                buildStatus = "FAILED"
                 throw e
             }
             finally {
-                notifyBuild(mynode, currentBuild.result)
+                notifyBuild(mynode, buildStatus)
             }
         }
     }
@@ -55,7 +60,7 @@ def notifyBuild(String nodeName, String buildStatus) {
     def summary = "${subject} (${env.BUILD_URL})"
 
     // Override default values based on build status
-    if (buildStatus == 'UNSTABLE') {
+    if (buildStatus == 'PREPARING' || buildStatus == 'TESTING') {
         color = '#FFFF00'
     }
     else if (buildStatus == 'SUCCESSFUL') {
