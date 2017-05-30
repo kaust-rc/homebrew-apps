@@ -31,7 +31,7 @@ for (x in nodes) {
                     buildStatus = "TESTING"
                     timeout(time: 1, unit: 'HOURS') {
                         withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                            sh "brew test-bot --tap=kaust-rc/apps --junit weather"
+                            sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup weather"
                         }
                         junit 'brew-test-bot.xml'
                     }
