@@ -64,14 +64,15 @@ def notifyBuild(String nodeName, String buildStatus) {
     def summary = "${subject} (${env.BUILD_URL})"
 
     // Override default values based on build status
-    if (buildStatus == 'PREPARING' || buildStatus == 'TESTING') {
-        color = '#FFFF00'
+    if (buildStatus == 'FAILED') {
+        color = '#FF0000'
     }
     else if (buildStatus == 'SUCCESSFUL') {
         color = '#00FF00'
     }
     else {
-        color = '#FF0000'
+        // All other states means yellow/warning
+        color = '#FFFF00'
     }
 
     // Send notifications
