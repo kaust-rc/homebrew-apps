@@ -35,7 +35,7 @@ for (x in nodes) {
 
                             println "Formulae to test: ${formulae}"
 
-                            sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup ${formulae}"
+                            sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup -v ${formulae}"
                         }
                         junit 'brew-test-bot.xml'
                     }
