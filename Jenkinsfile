@@ -18,7 +18,7 @@ for (x in nodes) {
 
                     buildStatus = "CREATING CONTAINER"
 
-                    docker.withRegistry('http://10.254.154.86') {
+                    docker.withRegistry('http://10.254.154.139') {
                         stage('Create container') {
                             container = pullBuildPush('Dockerfile.${mynode}')
                         }
