@@ -18,7 +18,7 @@ for (x in nodes) {
 
                     buildStatus = "CREATING CONTAINER"
 
-                    docker.withRegistry('http://10.254.154.139') {
+                    docker.withRegistry('http://10.254.154.86') {
                         stage('Create container') {
                             def imageTag = "Dockerfile.${mynode}"
                             container = pullBuildPush(imageTag)
@@ -57,7 +57,7 @@ for (x in nodes) {
                     throw e
                 }
                 finally {
-                    notifyBuild(mynode, buildStatus)
+                    //notifyBuild(mynode, buildStatus)
                 }
             }
         }
