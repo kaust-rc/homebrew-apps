@@ -78,7 +78,8 @@ def pullBuildPush(dockerfile) {
 
     def jenkins_uid = sh (script: 'id -u jenkins', returnStdout: true).trim()
     def jenkins_gid = sh (script: 'id -g jenkins', returnStdout: true).trim()
-    def build_args = "--cache-from ${image_cache.imageName()} --build-arg JENKINS_UID=${jenkins_uid} --build-arg JENKINS_GID=${jenkins_gid}"
+    //def build_args = "--cache-from ${image_cache.imageName()} --build-arg JENKINS_UID=${jenkins_uid} --build-arg JENKINS_GID=${jenkins_gid}"
+    def build_args = ""
     def container = docker.build("jenkins/homebrew-apps:${dockerfile}", "${build_args} -f docker/${dockerfile} .")
     container.push()
     return container
