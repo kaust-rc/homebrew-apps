@@ -1,0 +1,25 @@
+FROM centos:7
+
+RUN yum -y update && \
+    yum groupinstall -y "Development Tools" && \
+    yum install -y \
+    curl \
+    git \
+    irb \
+    python-setuptools \
+    ruby \
+    rubygem-minitest \
+    perl-Digest-SHA \
+    java-1.8.0-openjdk-devel
+
+# sudo defaults to requiretty on centos7
+RUN sed -i  's/Defaults    requiretty/Defaults !requiretty/' /etc/sudoers
+
+# create jenkins user, make sudo
+RUN groupadd jenkins && \
+    useradd -m -d /home/jenkins -g jenkins -s /bin/bash jenkins && \
+    echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER jenkins
+COPY docker/scripts/configure.jenkins.sh /tmp/
+RUN /bin/bash /tmp/configure.jenkins.sh

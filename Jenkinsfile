@@ -1,60 +1,86 @@
 #!groovy
 
-//def nodes = ['ubuntu14', 'ubuntu16', 'centos6', 'centos7']
-def nodes = ['ubuntu14', 'ubuntu16', 'centos7']
-def builds = [:]
+def nodes = ['ubuntu14', 'ubuntu16', 'centos6', 'centos7']
+def containers = [:]
 
 for (x in nodes) {
     def mynode = x
 
     // Create a map to pass in to the 'parallel' step so we can fire all the builds at once
-    builds[mynode] = {
-        node(mynode) {
-            try {
-                brew_home = "/home/jenkins/.linuxbrew"
-                brew_bin = "${brew_home}/bin"
-                kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
-                safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
+    containers[mynode] = {
+        node('docker') {
+            timestamps {
+                try {
+                    brew_home = "/home/jenkins/.linuxbrew"
+                    brew_bin = "${brew_home}/bin"
+                    kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
+                    safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
 
-                buildStatus = "PREPARING"
+                    buildStatus = "CREATING CONTAINER"
 
-                stage('Prepare') {
-                    timeout(time: 1, unit: 'HOURS') {
-                        withEnv(["PATH=${safe_path}"]) {
-                            sh "brew tap kaust-rc/apps"
+                    docker.withRegistry('http://10.254.154.86') {
+                        stage('Create container') {
+                            container = pullBuildPush('Dockerfile.${mynode}')
+                        }
+                        container.inside() {
+                            stage('Prepare') {
+                                timeout(time: 1, unit: 'HOURS') {
+                                    withEnv(["PATH=${safe_path}"]) {
+                                        sh "brew tap kaust-rc/apps"
+                                    }
+                                }
+                                sh "chmod 644 ${kaust_tap}/*.rb"
+                            }
+
+                            stage('Test') {
+                                buildStatus = "TESTING"
+                                timeout(time: 4, unit: 'HOURS') {
+                                    withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
+                                        def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
+
+                                        println "Formulae to test: ${formulae}"
+
+                                        sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup ${formulae}"
+                                    }
+                                    junit 'brew-test-bot.xml'
+                                }
+                            }
+
+                            buildStatus = "SUCCESSFUL"
                         }
                     }
-                    sh "chmod 644 ${kaust_tap}/*.rb"
                 }
-
-                stage('Test') {
-                    buildStatus = "TESTING"
-                    timeout(time: 4, unit: 'HOURS') {
-                        withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                            def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
-
-                            println "Formulae to test: ${formulae}"
-
-                            sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup ${formulae}"
-                        }
-                        junit 'brew-test-bot.xml'
-                    }
+                catch(e) {
+                    buildStatus = "FAILED"
+                    throw e
                 }
-
-                buildStatus = "SUCCESSFUL"
-            }
-            catch(e) {
-                buildStatus = "FAILED"
-                throw e
-            }
-            finally {
-                notifyBuild(mynode, buildStatus)
+                finally {
+                    notifyBuild(mynode, buildStatus)
+                }
             }
         }
     }
 }
 
-parallel builds
+parallel containers
+
+def pullBuildPush(dockerfile) {
+    def image_cache
+    try {
+        image_cache = docker.image("jenkins/homebrew-apps:${dockerfile}")
+        image_cache.pull()
+    }
+    catch(e) {
+        // assume this is "image not found" and simply build.
+    }
+
+    def jenkins_uid = sh (script: 'id -u jenkins', returnStdout: true).trim()
+    def jenkins_gid = sh (script: 'id -g jenkins', returnStdout: true).trim()
+    def build_args = "--cache-from ${image_cache.imageName()} --build-arg JENKINS_UID=${jenkins_uid} --build-arg JENKINS_GID=${jenkins_gid}"
+    def container = docker.build("jenkins/homebrew-apps:${dockerfile}", "${build_args} -f docker/${dockerfile} .")
+    container.push()
+    return container
+}
 
 def notifyBuild(String nodeName, String buildStatus) {
     // Default values
