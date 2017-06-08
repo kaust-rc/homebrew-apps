@@ -14,8 +14,10 @@ RUN add-apt-repository -y ppa:webupd8team/java && apt-get update && \
     apt-get install -y oracle-java8-installer
 
 # create jenkins user, make sudo
-RUN groupadd jenkins && \
-    useradd -m -d /home/jenkins -g jenkins -s /bin/bash jenkins && \
+ARG JENKINS_GID=1999
+ARG JENKINS_UID=1999
+RUN groupadd -g $JENKINS_GID jenkins && \
+    useradd -m -d /home/jenkins -u $JENKINS_UID -g jenkins -s /bin/bash jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER jenkins
