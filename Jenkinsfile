@@ -8,6 +8,7 @@ for (x in nodes) {
 
     // Create a map to pass in to the 'parallel' step so we can fire all the builds at once
     containers[mynode] = {
+        def flavor = mynode
         node('docker') {
             timestamps {
                 try {
@@ -20,10 +21,11 @@ for (x in nodes) {
 
                     docker.withRegistry('http://10.254.154.139') {
                         stage('Create container') {
-                            container = pullBuildPush('Dockerfile.${mynode}')
+                            container = pullBuildPush('Dockerfile.${flavor}')
                         }
                         container.inside() {
                             stage('Prepare') {
+                                buildStatus = "PREPARING"
                                 timeout(time: 1, unit: 'HOURS') {
                                     withEnv(["PATH=${safe_path}"]) {
                                         sh "brew tap kaust-rc/apps"
