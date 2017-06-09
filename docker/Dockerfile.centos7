@@ -23,5 +23,5 @@ RUN groupadd -g $JENKINS_GID jenkins && \
 RUN sed -i  's/Defaults    requiretty/Defaults !requiretty/' /etc/sudoers
 
 USER jenkins
-COPY docker/scripts/configure.jenkins.sh /tmp/
-RUN /bin/bash /tmp/configure.jenkins.sh
+COPY docker/scripts/docker.install.linuxbrew /tmp/
+RUN /bin/bash /tmp/docker.install.linuxbrew
