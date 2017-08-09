@@ -1,6 +1,6 @@
 #!groovy
 
-def nodes = ['biolinux8', 'ubuntu14', 'ubuntu16', 'centos6', 'centos7']
+def nodes = ['biolinux8', 'ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
 def containers = [:]
 
 for (x in nodes) {
@@ -23,7 +23,7 @@ for (x in nodes) {
                             checkout scm
                         }
 
-                        docker.image("Dockerfile.${mynode}").inside {
+                        docker.image("${mynode}").inside {
                             stage('Prepare') {
                                 buildStatus = "PREPARING"
                                 timeout(time: 1, unit: 'HOURS') {
