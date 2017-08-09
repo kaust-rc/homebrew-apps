@@ -18,7 +18,7 @@ for (x in nodes) {
 
                     buildStatus = "CREATING CONTAINER"
 
-                    docker.withRegistry('http://10.254.154.131', 'docker-registry-credentials') {
+                    docker.withRegistry('http://10.254.154.110', 'docker-registry-credentials') {
                         stage('Update repo') {
                             checkout scm
                         }
