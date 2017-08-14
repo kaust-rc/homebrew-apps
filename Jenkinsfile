@@ -1,8 +1,7 @@
 #!groovy
 
 //def nodes = ['biolinux:8', 'ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
-//def nodes = ['ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
-def nodes = ['ubuntu:xenial']
+def nodes = ['ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
 def containers = [:]
 
 for (x in nodes) {
@@ -30,9 +29,6 @@ for (x in nodes) {
                                 buildStatus = "PREPARING"
                                 timeout(time: 1, unit: 'HOURS') {
                                     withEnv(["PATH=${safe_path}"]) {
-                                        sh "id -u"
-                                        sh "ls -latr ~/"
-                                        sh "which brew"
                                         sh "brew tap kaust-rc/apps"
                                     }
                                 }
