@@ -18,5 +18,6 @@ class VaspRaman < Formula
     # We'd need VASP installed to perform a real test, so let's just check the file exists
     assert File.exist?("#{bin}/vasp_raman.py")
     assert File.executable?("#{bin}/vasp_raman.py")
+    assert_match "Usage: vasp_raman.py [options]", shell_output("#{bin}/vasp_raman.py", 1)
   end
 end
