@@ -20,12 +20,12 @@ for (x in nodes) {
                     buildStatus = "CREATING CONTAINER"
 
                     docker.withRegistry('http://10.254.154.110', 'docker-registry-credentials') {
-                        stage('Update repo') {
+                        stage("${mynode}: Update repo") {
                             checkout scm
                         }
 
                         docker.image("${mynode}").inside {
-                            stage('Prepare') {
+                            stage("${mynode}: Prepare") {
                                 buildStatus = "PREPARING"
                                 timeout(time: 1, unit: 'HOURS') {
                                     withEnv(["PATH=${safe_path}"]) {
@@ -35,7 +35,7 @@ for (x in nodes) {
                                 sh "chmod 644 ${kaust_tap}/*.rb"
                             }
 
-                            stage('Test') {
+                            stage("${mynode}: Test") {
                                 buildStatus = "TESTING"
                                 timeout(time: 4, unit: 'HOURS') {
                                     withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
