@@ -1,7 +1,3 @@
-# Documentation: https://docs.brew.sh/Formula-Cookbook.html
-#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-
 class VaspRaman < Formula
   desc "Raman off-resonant activity calculator using VASP as a back-end"
   homepage "https://github.com/raman-sc/VASP"
@@ -15,18 +11,12 @@ class VaspRaman < Formula
 
   def install
     bin.install "vasp_raman.py"
+    chmod 0755, "#{bin}/vasp_raman.py"
   end
 
   test do
-    # `test do` will create, run in and delete a temporary directory.
-    #
-    # This test will fail and we won't accept that! For Homebrew/homebrew-core
-    # this will need to be a test that verifies the functionality of the
-    # software. Run the test with `brew test vasp-raman`. Options passed
-    # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
-    #
-    # The installed folder is not in the path, so use the entire path to any
-    # executables being tested: `system "#{bin}/program", "do", "something"`.
+    # We'd need VASP installed to perform a real test, so let's just check the file exists
     assert File.exist?("#{bin}/vasp_raman.py")
+    assert File.executable?("#{bin}/vasp_raman.py")
   end
 end
