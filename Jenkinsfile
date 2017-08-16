@@ -1,7 +1,7 @@
 #!groovy
 
-//def nodes = ['biolinux:8', 'ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
-def nodes = ['ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
+def nodes = ['biolinux:8', 'ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
+//def nodes = ['ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
 def containers = [:]
 
 for (x in nodes) {
