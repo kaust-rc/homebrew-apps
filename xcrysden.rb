@@ -5,9 +5,16 @@ class Xcrysden < Formula
   sha256 "24e78f984d1ddae6d53f360639202e13782684a186b8a07c83d0c82471698553"
 
   bottle :unneeded
-
+  
+  depends_on "tcl-tk"
+  depends_on "fftw"
+  
   def install
-    bin.install "xcrysden"
+    prefix.install Dir["*"]
+    (bin/"xcrysden").write <<-EOS.undent
+        #!/bin/bash -l
+         "#{prefix}/xcrysden"
+    EOS
   end
 
   test do
