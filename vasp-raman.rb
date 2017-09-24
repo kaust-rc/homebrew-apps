@@ -11,12 +11,10 @@ class VaspRaman < Formula
 
   def install
     bin.install "vasp_raman.py"
-    chmod 0755, "#{bin}/vasp_raman.py"
   end
 
   test do
     # We'd need VASP installed to perform a real test, so let's just check the file exists
-    assert File.exist?("#{bin}/vasp_raman.py")
     assert File.executable?("#{bin}/vasp_raman.py")
     assert_match "Usage: vasp_raman.py [options]", shell_output("#{bin}/vasp_raman.py", 1)
   end
