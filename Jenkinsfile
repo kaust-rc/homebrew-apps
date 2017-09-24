@@ -23,7 +23,7 @@ for (x in nodes) {
                             checkout scm
                         }
 
-                        docker.image("${mynode}").inside {
+                        docker.image("${mynode}").inside("-v /home/jenkins:/home/jenkins") {
                             stage("${mynode}: Prepare") {
                                 buildStatus = "PREPARING"
                                 timeout(time: 1, unit: 'HOURS') {
