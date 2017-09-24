@@ -1,6 +1,6 @@
 #!groovy
 
-def nodes = ['biolinux:8', 'ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
+def nodes = ['biolinux:8', 'ubuntu:xenial', 'centos:6']
 def containers = [:]
 
 for (x in nodes) {
@@ -28,6 +28,7 @@ for (x in nodes) {
                                 buildStatus = "PREPARING"
                                 timeout(time: 1, unit: 'HOURS') {
                                     withEnv(["PATH=${safe_path}"]) {
+                                        sh "brew update || brew update"
                                         sh "brew tap kaust-rc/apps"
                                     }
                                 }
@@ -36,16 +37,30 @@ for (x in nodes) {
 
                             stage("${mynode}: Test") {
                                 buildStatus = "TESTING"
-                                timeout(time: 4, unit: 'HOURS') {
-                                    withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                                        def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
 
-                                        println "Formulae to test: ${formulae}"
+                                def formulaeToTestInParallel = [:]
 
-                                        sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup ${formulae}"
+                                def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
+
+                                println "Formulae to test: ${formulae}"
+
+                                def formulaeList = formulae.split(" ")
+
+                                for (f in formulaeList) {
+                                    def formula = f
+
+                                    formulaeToTestInParallel[formula] = {
+                                        timeout(time: 1, unit: 'HOURS') {
+                                            withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
+                                                sh "brew install -v ${formula}"
+                                                sh "brew audit --strict ${formula}"
+                                                sh "brew test ${formula}"
+                                            }
+                                        }
                                     }
-                                    junit 'brew-test-bot.xml'
                                 }
+
+                                parallel formulaeToTestInParallel
                             }
 
                             buildStatus = "SUCCESSFUL"
