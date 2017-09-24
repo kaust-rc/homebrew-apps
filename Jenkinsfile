@@ -49,9 +49,9 @@ for (x in nodes) {
 
                                     timeout(time: 1, unit: 'HOURS') {
                                         withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                                            sh "brew install -v ${formula}"
-                                            sh "brew audit --strict ${formula}"
-                                            sh "brew test ${formula}"
+                                            sh "brew install ${formula}"
+                                            sh "brew audit ${formula}"
+                                            sh "brew test ${formula} --verbose"
                                         }
                                     }
                                 }
