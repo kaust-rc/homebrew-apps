@@ -38,8 +38,6 @@ for (x in nodes) {
                             stage("${mynode}: Test") {
                                 buildStatus = "TESTING"
 
-                                def formulaeToTestInParallel = [:]
-
                                 def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
 
                                 println "Formulae to test: ${formulae}"
@@ -49,18 +47,14 @@ for (x in nodes) {
                                 for (f in formulaeList) {
                                     def formula = f
 
-                                    formulaeToTestInParallel[formula] = {
-                                        timeout(time: 1, unit: 'HOURS') {
-                                            withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                                                sh "brew install -v ${formula}"
-                                                sh "brew audit --strict ${formula}"
-                                                sh "brew test ${formula}"
-                                            }
+                                    timeout(time: 1, unit: 'HOURS') {
+                                        withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
+                                            sh "brew install -v ${formula}"
+                                            sh "brew audit --strict ${formula}"
+                                            sh "brew test ${formula}"
                                         }
                                     }
                                 }
-
-                                parallel formulaeToTestInParallel
                             }
 
                             buildStatus = "SUCCESSFUL"
