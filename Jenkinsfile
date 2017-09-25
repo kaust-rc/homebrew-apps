@@ -1,13 +1,13 @@
 #!groovy
 
 def nodes = ['biolinux:8', 'ubuntu:xenial', 'centos:6']
-def containers = [:]
+//def containers = [:]
 
 for (x in nodes) {
     def mynode = x
 
     // Create a map to pass in to the 'parallel' step so we can fire all the builds at once
-    containers[mynode] = {
+    //containers[mynode] = {
         node('docker') {
             timestamps {
                 try {
@@ -30,11 +30,10 @@ for (x in nodes) {
                                 buildStatus = "PREPARING"
                                 timeout(time: 1, unit: 'HOURS') {
                                     withEnv(["PATH=${safe_path}"]) {
-                                        sh "brew update || brew update"
                                         sh "brew tap kaust-rc/apps"
+                                        sh "chmod 644 ${kaust_tap}/*.rb"
                                     }
                                 }
-                                sh "chmod 644 ${kaust_tap}/*.rb"
                             }
 
                             stage("${mynode}: Test") {
@@ -72,10 +71,10 @@ for (x in nodes) {
                 }
             }
         }
-    }
+    //}
 }
 
-parallel containers
+//parallel containers
 
 def notifyBuild(String nodeName, String buildStatus) {
     // Default values
