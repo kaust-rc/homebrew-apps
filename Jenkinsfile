@@ -1,15 +1,13 @@
 #!groovy
 
 def nodes = ['biolinux:8', 'ubuntu:xenial', 'centos:6']
-//def containers = [:]
-
 for (x in nodes) {
     def mynode = x
 
     node('docker') {
         timestamps {
             try {
-                // Set Linuxbre paths
+                // Set Linuxbrew paths
                 brew_home = "/home/jenkins/.linuxbrew"
                 brew_bin = "${brew_home}/bin"
                 kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
@@ -41,7 +39,7 @@ for (x in nodes) {
                             println "Formulae to test: ${formulae}"
 
                             // We CANNOT run tests in parallel because Linuxbrew complains
-                            // about multiple process trying to work on it
+                            // about multiple processes trying to work on it
                             def formulaeList = formulae.split(" ")
                             for (f in formulaeList) {
                                 def formula = f
