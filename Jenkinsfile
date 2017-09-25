@@ -11,6 +11,7 @@ for (x in nodes) {
         node('docker') {
             timestamps {
                 try {
+                    // Set Linuxbre paths
                     brew_home = "/home/jenkins/.linuxbrew"
                     brew_bin = "${brew_home}/bin"
                     kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
@@ -23,6 +24,7 @@ for (x in nodes) {
                             checkout scm
                         }
 
+                        // Let's mount Jenkins HOME so we can speedup tests
                         docker.image("${mynode}").inside("-v /home/jenkins:/home/jenkins:rw,z") {
                             stage("${mynode}: Prepare") {
                                 buildStatus = "PREPARING"
@@ -39,11 +41,11 @@ for (x in nodes) {
                                 buildStatus = "TESTING"
 
                                 def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
-
                                 println "Formulae to test: ${formulae}"
 
+                                // We CANNOT run tests in parallel because Linuxbrew complains
+                                // about multiple process trying to work on it
                                 def formulaeList = formulae.split(" ")
-
                                 for (f in formulaeList) {
                                     def formula = f
 
