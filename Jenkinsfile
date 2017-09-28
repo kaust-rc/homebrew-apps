@@ -47,8 +47,7 @@ for (x in nodes) {
                                 timeout(time: 1, unit: 'HOURS') {
                                     withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
                                         sh "brew reinstall ${formula}"
-                                        // sh "brew audit --strict ${formula}"
-                                        sh "brew audit ${formula}"
+                                        sh "brew audit --strict ${formula}"
                                         sh "brew test ${formula}"
                                     }
                                 }
