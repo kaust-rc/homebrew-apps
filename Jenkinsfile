@@ -1,70 +1,74 @@
 #!groovy
 
-def nodes = ['biolinux:8', 'ubuntu:trusty', 'ubuntu:xenial', 'centos:6', 'centos:7']
-def containers = [:]
-
+def nodes = ['biolinux:8', 'ubuntu:xenial', 'centos:6']
 for (x in nodes) {
     def mynode = x
 
-    // Create a map to pass in to the 'parallel' step so we can fire all the builds at once
-    containers[mynode] = {
-        node('docker') {
-            timestamps {
-                try {
-                    brew_home = "/home/jenkins/.linuxbrew"
-                    brew_bin = "${brew_home}/bin"
-                    kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
-                    safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
+    node('docker') {
+        timestamps {
+            try {
+                // Set Linuxbrew paths
+                brew_home = "/home/jenkins/.linuxbrew"
+                brew_bin = "${brew_home}/bin"
+                kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
+                safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
 
-                    buildStatus = "CREATING CONTAINER"
+                buildStatus = "CREATING CONTAINER"
 
-                    docker.withRegistry('http://10.254.154.110', 'docker-registry-credentials') {
-                        stage("${mynode}: Update repo") {
-                            checkout scm
+                docker.withRegistry('http://10.254.154.110', 'docker-registry-credentials') {
+                    stage("${mynode}: Update repo") {
+                        checkout scm
+                    }
+
+                    // Let's mount Jenkins HOME so we can speedup tests
+                    docker.image("${mynode}").inside("-v /home/jenkins:/home/jenkins:rw,z") {
+                        stage("${mynode}: Prepare") {
+                            buildStatus = "PREPARING"
+                            timeout(time: 1, unit: 'HOURS') {
+                                withEnv(["PATH=${safe_path}"]) {
+                                    sh "brew tap kaust-rc/apps"
+                                    sh "chmod 644 ${kaust_tap}/*.rb"
+                                }
+                            }
                         }
 
-                        docker.image("${mynode}").inside {
-                            stage("${mynode}: Prepare") {
-                                buildStatus = "PREPARING"
+                        stage("${mynode}: Test") {
+                            buildStatus = "TESTING"
+
+                            def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
+                            println "Formulae to test: ${formulae}"
+
+                            // We CANNOT run tests in parallel because Linuxbrew complains
+                            // about multiple processes trying to work on it
+                            def formulaeList = formulae.split(" ")
+                            for (f in formulaeList) {
+                                def formula = f
+
                                 timeout(time: 1, unit: 'HOURS') {
-                                    withEnv(["PATH=${safe_path}"]) {
-                                        sh "brew tap kaust-rc/apps"
-                                    }
-                                }
-                                sh "chmod 644 ${kaust_tap}/*.rb"
-                            }
-
-                            stage("${mynode}: Test") {
-                                buildStatus = "TESTING"
-                                timeout(time: 4, unit: 'HOURS') {
                                     withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                                        def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
-
-                                        println "Formulae to test: ${formulae}"
-
-                                        sh "brew test-bot --tap=kaust-rc/apps --junit --skip-setup ${formulae}"
+                                        sh "brew reinstall ${formula}"
+                                        // sh "brew audit --strict ${formula}"
+                                        sh "brew audit ${formula}"
+                                        sh "brew test ${formula}"
                                     }
-                                    junit 'brew-test-bot.xml'
                                 }
                             }
-
-                            buildStatus = "SUCCESSFUL"
                         }
+
+                        buildStatus = "SUCCESSFUL"
                     }
                 }
-                catch(e) {
-                    buildStatus = "FAILED"
-                    throw e
-                }
-                finally {
-                    notifyBuild(mynode, buildStatus)
-                }
+            }
+            catch(e) {
+                buildStatus = "FAILED"
+                throw e
+            }
+            finally {
+                notifyBuild(mynode, buildStatus)
             }
         }
     }
 }
-
-parallel containers
 
 def notifyBuild(String nodeName, String buildStatus) {
     // Default values

@@ -5,9 +5,9 @@ class VaspRaman < Formula
   version "0.6.0"
   sha256 "00b9e15a2a277299ae1093915bcd9cf6f4f70d26f47acd289055502bd1efcd0c"
 
-  depends_on "python"
-
   bottle :unneeded
+
+  depends_on "python"
 
   def install
     bin.install "vasp_raman.py"
