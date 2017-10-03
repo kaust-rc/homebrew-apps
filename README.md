@@ -1,6 +1,7 @@
 # homebrew-apps
 
 [![Read the Docs](https://readthedocs.org/projects/kaust-apps/badge/?version=latest)](https://kaust-apps.readthedocs.io)
+[![Join us on SLACK](https://img.shields.io/badge/slack-joinus-red.svg)](https://kaust-rc.slack.com)
 
 KAUST Homebrew Apps delivers easy installation of applications in user's HOME.
 The Formulae included here are built based on [Linuxbrew](http://linuxbrew.sh/).
