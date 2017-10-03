@@ -89,5 +89,5 @@ def notifyBuild(String nodeName, String buildStatus) {
     }
 
     // Send notifications
-    slackSend (channel: '#devops', color: color, message: summary)
+    slackSend (channel: '#linuxbrew', color: color, message: summary)
 }
