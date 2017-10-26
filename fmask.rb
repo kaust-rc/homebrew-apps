@@ -5,6 +5,13 @@ class Fmask < Formula
   version "3.2"
   sha256 "f30351a6d8e545fbddb16bf5cc2eb3df586bd01733c7a3f9bb5c90092926d6eb"
 
+  def linux_distro
+    if File.exist?("/etc/debian_version")
+      system "sudo", "apt-get", "libxt6",
+                                "libxmu6"
+    end
+  end
+
   def install
     mv("readme.txt", "fmask_readme.txt")
     system "unzip", "MCRInstaller.zip"
