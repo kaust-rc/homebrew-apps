@@ -7,8 +7,8 @@ class Fmask < Formula
 
   def linux_distro
     if File.exist?("/etc/debian_version")
-      depends_on "libxt"
-      depends_on "libxmu"
+      system "sudo", "apt-get", "libxt6",
+                                "libxmu6"
     end
   end
 
