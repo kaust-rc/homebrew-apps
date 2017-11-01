@@ -13,9 +13,9 @@ class Weather < Formula
   end
 
   test do
-    assert File.exist?("#{bin}/weather")
+    assert_predicate "#{bin}/weather", :exist?
     output = "weather > testfile"
     system output
-    assert File.exist?("testfile")
+    assert_predicate "testfile", :exist?
   end
 end
