@@ -1,7 +1,6 @@
 #!groovy
 
-#def nodes = ['biolinux:8', 'ubuntu:xenial', 'centos:6', 'centos:7']
-def nodes = ['ubuntu:xenial', 'centos:6', 'centos:7']
+def nodes = ['biolinux:8', 'ubuntu:xenial', 'centos:6', 'centos:7']
 for (x in nodes) {
     def mynode = x
 
@@ -11,7 +10,7 @@ for (x in nodes) {
                 // Set Linuxbrew paths
                 brew_home = "/home/jenkins/.linuxbrew"
                 brew_bin = "${brew_home}/bin"
-                kaust_tap = "${brew_home}/Library/Taps/kaust-rc/homebrew-apps"
+                kaust_tap = "${brew_home}/Homebrew/Library/Taps/kaust-rc/homebrew-apps"
                 safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
 
                 buildStatus = "CREATING CONTAINER"
