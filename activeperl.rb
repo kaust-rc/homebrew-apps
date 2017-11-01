@@ -5,6 +5,8 @@ class Activeperl < Formula
   version "5.26.0.2600"
   sha256 "df84fab28a3783e5d0d540e626a8e4b2b3000b9e9c16219736dac21c608b7ec4"
 
+  depends_on "glibc"
+
   def install
     # install script fails if the install directory exists, so it has to be removed after brew creates it
     rm_rf(prefix.to_s, :secure=>true)
