@@ -16,6 +16,6 @@ class Weather < Formula
     assert_predicate bin/"weather", :exist?
     output = "weather > testfile"
     system output
-    assert_predicate testfile, :exist?
+    assert_predicate testpath/"testfile", :exist?
   end
 end
