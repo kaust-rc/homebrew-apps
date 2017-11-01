@@ -1,7 +1,7 @@
 class Activeperl < Formula
   desc "ActiveState's quality-assured Perl destribution"
   homepage "https://www.activestate.com/activeperl"
-  url "http://downloads.activestate.com/ActivePerl/releases/5.26.0.2600/ActivePerl-5.26.0.2600-x86_64-linux-glibc-2.15-403863.tar.gz"
+  url "https://downloads.activestate.com/ActivePerl/releases/5.26.0.2600/ActivePerl-5.26.0.2600-x86_64-linux-glibc-2.15-403863.tar.gz"
   version "5.26.0.2600"
   sha256 "df84fab28a3783e5d0d540e626a8e4b2b3000b9e9c16219736dac21c608b7ec4"
 
