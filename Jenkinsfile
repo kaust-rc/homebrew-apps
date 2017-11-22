@@ -26,6 +26,8 @@ for (x in nodes) {
                             buildStatus = "PREPARING"
                             timeout(time: 1, unit: 'HOURS') {
                                 withEnv(["PATH=${safe_path}"]) {
+                                    sh "echo ${PATH}"
+                                    sh "which brew"
                                     sh "brew tap kaust-rc/apps"
                                     sh "chmod 644 ${kaust_tap}/*.rb"
                                 }
