@@ -17,25 +17,17 @@ for (x in nodes) {
                 buildStatus = "CREATING CONTAINER"
 
                 docker.withRegistry('http://10.254.154.110', 'docker-registry-credentials') {
-                    stage("${mynode}: Update repo") {
-                        checkout scm
-                    }
-
                     // Let's mount Jenkins HOME so we can speedup tests
                     docker.image("${mynode}").inside("-v /home/jenkins:/home/jenkins:rw,z") {
-                        stage("${mynode}: Prepare") {
+                        stage("${mynode}: Run tests") {
                             buildStatus = "PREPARING"
+                            checkout scm
                             def workspace = pwd()
                             echo "workspace=${workspace}"
-                            timeout(time: 1, unit: 'HOURS') {
-                                sh script: "${scripts}/tap.kaust.apps.sh"
-                            }
-                        }
+                            sh script: "scripts/tap.kaust.apps.sh"
 
-                        stage("${mynode}: Test") {
                             buildStatus = "TESTING"
-
-                            def formulae = sh script: "${scripts}/list.formulae", returnStdout: true
+                            def formulae = sh script: "scripts/list.formulae", returnStdout: true
                             println "Formulae to test: ${formulae}"
 
                             // We CANNOT run tests in parallel because Linuxbrew complains
@@ -45,7 +37,7 @@ for (x in nodes) {
                                 def formula = f
 
                                 timeout(time: 1, unit: 'HOURS') {
-                                    sh script: "${scripts}/test.formula.sh ${formula}"
+                                    sh script: "scripts/test.formula.sh ${formula}"
                                 }
                             }
                         }

@@ -4,6 +4,7 @@ set -xe
 
 echo "PATH: ${PATH}"
 
+brew untap kaust-rc/apps
 brew tap kaust-rc/apps
 kaust_tap="$(brew --repository kaust-rc/apps)"
 cd "${kaust_tap}"
