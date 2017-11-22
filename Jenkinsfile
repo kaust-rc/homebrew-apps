@@ -25,7 +25,7 @@ for (x in nodes) {
                     docker.image("${mynode}").inside("-v /home/jenkins:/home/jenkins:rw,z") {
                         stage("${mynode}: Prepare") {
                             buildStatus = "PREPARING"
-                            sh "echo $(pwd)"
+                            sh "echo ${PWD}"
                             timeout(time: 1, unit: 'HOURS') {
                                 sh script: "${scripts}/tap.kaust.apps.sh"
                             }
