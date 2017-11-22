@@ -7,13 +7,6 @@ for (x in nodes) {
     node('docker') {
         timestamps {
             try {
-                // Set Linuxbrew paths
-                jenkins_home = "/home/jenkins"
-                brew_home = "${jenkins_home}/.linuxbrew"
-                brew_bin = "${brew_home}/bin"
-                kaust_tap = "${brew_home}/Homebrew/Library/Taps/kaust-rc/homebrew-apps"
-                scripts = "${kaust_tap}/scripts"
-
                 buildStatus = "CREATING CONTAINER"
 
                 docker.withRegistry('http://10.254.154.110', 'docker-registry-credentials') {
