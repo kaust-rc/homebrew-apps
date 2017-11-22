@@ -15,8 +15,6 @@ for (x in nodes) {
                         stage("${mynode}: Run tests") {
                             buildStatus = "PREPARING"
                             checkout scm
-                            def workspace = pwd()
-                            echo "workspace=${workspace}"
                             sh script: "scripts/tap.kaust.apps.sh"
 
                             buildStatus = "TESTING"
