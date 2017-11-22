@@ -9,11 +9,10 @@ for (x in nodes) {
             try {
                 // Set Linuxbrew paths
                 jenkins_home = "/home/jenkins"
-                jprofile = "/home/jenkins/.profile"
                 brew_home = "${jenkins_home}/.linuxbrew"
                 brew_bin = "${brew_home}/bin"
                 kaust_tap = "${brew_home}/Homebrew/Library/Taps/kaust-rc/homebrew-apps"
-                safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
+                scripts = "${kaust_tap}/scripts"
 
                 buildStatus = "CREATING CONTAINER"
 
@@ -27,15 +26,14 @@ for (x in nodes) {
                         stage("${mynode}: Prepare") {
                             buildStatus = "PREPARING"
                             timeout(time: 1, unit: 'HOURS') {
-                                sh "source ${jprofile} && brew tap kaust-rc/apps"
-                                sh "chmod 644 ${kaust_tap}/*.rb"
+                                sh script: "${scripts}/tap.kaust.apps.sh"
                             }
                         }
 
                         stage("${mynode}: Test") {
                             buildStatus = "TESTING"
 
-                            def formulae = sh script: "${kaust_tap}/list.formulae", returnStdout: true
+                            def formulae = sh script: "${scripts}/list.formulae", returnStdout: true
                             println "Formulae to test: ${formulae}"
 
                             // We CANNOT run tests in parallel because Linuxbrew complains
@@ -45,11 +43,7 @@ for (x in nodes) {
                                 def formula = f
 
                                 timeout(time: 1, unit: 'HOURS') {
-                                    withEnv(['HOMEBREW_DEVELOPER=1']) {
-                                        sh "source ${jprofile} && brew reinstall ${formula}"
-                                        sh "source ${jprofile} && brew audit --strict --online ${formula}"
-                                        sh "source ${jprofile} && brew test ${formula}"
-                                    }
+                                    sh script: "${scripts}/test.formula.sh ${formula}"
                                 }
                             }
                         }
