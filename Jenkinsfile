@@ -15,7 +15,7 @@ for (x in nodes) {
                         stage("${mynode}: Run tests") {
                             buildStatus = "PREPARING"
                             checkout scm
-                            sh script: "#!/bin/bash -lc scripts/tap.kaust.apps.sh"
+                            sh script: "/bin/bash -l scripts/tap.kaust.apps.sh"
 
                             buildStatus = "TESTING"
                             def formulae = sh script: "scripts/list.formulae", returnStdout: true
@@ -28,7 +28,7 @@ for (x in nodes) {
                                 def formula = f
 
                                 timeout(time: 1, unit: 'HOURS') {
-                                    sh script: "#!/bin/bash -lc scripts/test.formula.sh ${formula}"
+                                    sh script: "/bin/bash -l scripts/test.formula.sh ${formula}"
                                 }
                             }
                         }
