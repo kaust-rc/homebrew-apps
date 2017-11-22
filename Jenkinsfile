@@ -11,7 +11,6 @@ for (x in nodes) {
                 brew_home = "/home/jenkins/.linuxbrew"
                 brew_bin = "${brew_home}/bin"
                 kaust_tap = "${brew_home}/Homebrew/Library/Taps/kaust-rc/homebrew-apps"
-                safe_path = "${brew_bin}:/usr/bin:/bin:/usr/sbin:/sbin"
 
                 buildStatus = "CREATING CONTAINER"
 
@@ -25,10 +24,8 @@ for (x in nodes) {
                         stage("${mynode}: Prepare") {
                             buildStatus = "PREPARING"
                             timeout(time: 1, unit: 'HOURS') {
-                                withEnv(["PATH=${safe_path}"]) {
-                                    sh "brew tap kaust-rc/apps"
-                                    sh "chmod 644 ${kaust_tap}/*.rb"
-                                }
+                                sh "${brew_bin}/brew tap kaust-rc/apps"
+                                sh "chmod 644 ${kaust_tap}/*.rb"
                             }
                         }
 
@@ -45,10 +42,10 @@ for (x in nodes) {
                                 def formula = f
 
                                 timeout(time: 1, unit: 'HOURS') {
-                                    withEnv(["PATH=${safe_path}", 'HOMEBREW_DEVELOPER=1']) {
-                                        sh "brew reinstall ${formula}"
-                                        sh "brew audit --strict --online ${formula}"
-                                        sh "brew test ${formula}"
+                                    withEnv(['HOMEBREW_DEVELOPER=1']) {
+                                        sh "${brew_bin}/brew reinstall ${formula}"
+                                        sh "${brew_bin}/brew audit --strict --online ${formula}"
+                                        sh "${brew_bin}/brew test ${formula}"
                                     }
                                 }
                             }
