@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -xe
+
 # Let's see where we're running
 myroot=$(cd "$(dirname "$0")"; pwd)
 cd "$( dirname "${myroot}" )"
