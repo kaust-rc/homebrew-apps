@@ -2,7 +2,7 @@
 
 # Let's see where we're running
 myroot=$(cd "$(dirname "$0")"; pwd)
-cd "${myroot}"
+cd "$( dirname "${myroot}" )"
 
 # List all formulae ending in .rb in this folder
 output=""
