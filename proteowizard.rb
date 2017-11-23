@@ -1,7 +1,8 @@
 class Proteowizard < Formula
   desc "Modular cross-platform tools for easy proteomics data analysis"
   homepage "https://proteowizard.sourceforge.net/index.shtml"
-  url "https://github.com/kaust-rc/homebrew-apps/blob/test-proteowizard/releases/pwiz-bin-linux-x86_64-gcc48-release-3_0_11579.tar.bz2"
+  url "https://raw.githubusercontent.com/kaust-rc/homebrew-apps/test-proteowizard/releases/pwiz-bin-linux-x86_64-gcc48-release-3_0_11579.tar.bz2"
+  sha256 "a1236512070c4fd7818df9a1a49d5114a188030a45402b9b7a66a893b5aa16a9"
 
   def install
     prefix.install "quantitation_1.xsd", "quantitation_2.xsd", "unimod_2.xsd"
