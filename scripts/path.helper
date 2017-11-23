@@ -2,7 +2,6 @@
 
 if ! which brew 1>/dev/null 2>/dev/null;
 then
-    id -nG
     jenkinks_home="/hom/jenkins"
     PATH="$jenkinks_home/bin:$jenkinks_home/.local/bin:$PATH"
     export PATH="$jenkinks_home/.linuxbrew/bin:$PATH"
