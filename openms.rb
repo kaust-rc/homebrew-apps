@@ -24,8 +24,8 @@ class Openms < Formula
     cd("contrib-build")
     system "cmake", "-DBUILD_TYPE=WILDMAGIC", "../contrib"
     system "cmake", "-DBUILD_TYPE=COINOR", "../contrib"
-    mkdir("OpenMS-build") unless File.directory?("OpenMS-build")
-    cd("OpenMS-build")
+    mkdir("../OpenMS-build") unless File.directory?("OpenMS-build")
+    cd("../OpenMS-build")
     system "cmake", "-DOPENMS_CONTRIB_LIBS=../contrib-build", "-DBOOST_USE_STATIC=OFF", "--prefix=#{prefix}", "../"
     system "make"
   end
