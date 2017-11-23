@@ -1,7 +1,7 @@
 class Proteowizard < Formula
   desc "Modular cross-platform tools for easy proteomics data analysis"
   homepage "https://proteowizard.sourceforge.net/index.shtml"
-  url "https://github.com/kaust-rc/homebrew-apps/blob/test-proteowizard/archive/pwiz-bin-linux-x86_64-gcc48-release-3_0_11579.tar.bz2"
+  url "https://github.com/kaust-rc/homebrew-apps/blob/test-proteowizard/releases/pwiz-bin-linux-x86_64-gcc48-release-3_0_11579.tar.bz2"
   sha256 "5afbfa654958298f6b81ed6c27f61dd35da7aa89d081c95f1590116230d079ba"
 
   def install
