@@ -1,6 +1,6 @@
 #!groovy
 
-def nodes = ['centos:6', 'centos:7', 'ubuntu:xenial']
+def nodes = ['ubuntu:xenial', 'centos:6', 'centos:7']
 for (x in nodes) {
     def mynode = x
 
@@ -15,7 +15,7 @@ for (x in nodes) {
                         stage("${mynode}: Run tests") {
                             buildStatus = "PREPARING"
                             checkout scm
-                            sh script: "/bin/bash -l scripts/tap.kaust.apps.sh"
+                            sh script: "scripts/tap.kaust.apps.sh"
 
                             buildStatus = "TESTING"
                             def formulae = sh script: "scripts/list.formulae", returnStdout: true
@@ -28,7 +28,7 @@ for (x in nodes) {
                                 def formula = f
 
                                 timeout(time: 1, unit: 'HOURS') {
-                                    sh script: "/bin/bash -l scripts/test.formula.sh ${formula}"
+                                    sh script: "scripts/test.formula.sh ${formula}"
                                 }
                             }
                         }
