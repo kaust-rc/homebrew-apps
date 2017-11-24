@@ -14,16 +14,15 @@ class Openms < Formula
   depends_on "glpk"
   depends_on "libsvm"
   depends_on "bzip2"
-  depends_on "homebrew/science/seqan"
   depends_on "homebrew/science/coinmp"
   depends_on "eigen"
-  depends_on "doxygen"
 
   def install
     mkdir("contrib-build") unless File.directory?("contrib-build")
     cd("contrib-build")
     system "cmake", "-DBUILD_TYPE=WILDMAGIC", "../contrib"
     system "cmake", "-DBUILD_TYPE=XERCESC", "../contrib"
+    system "cmake", "-DBUILD_TYPE=SEQAN", "../contrib"
     mkdir("../OpenMS-build") unless File.directory?("OpenMS-build")
     cd("../OpenMS-build")
     system "cmake", "-DOPENMS_CONTRIB_LIBS=#{pwd}/../contrib-build", "-DBOOST_USE_STATIC=OFF", "--prefix=#{prefix}", "../", *std_cmake_args
