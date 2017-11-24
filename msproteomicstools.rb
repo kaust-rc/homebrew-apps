@@ -5,14 +5,16 @@ class Msproteomicstools < Formula
   version "0.5"
   sha256 "dbf0894c17824b61eb84882b03c7423dd614b5f4235fee76febdc8d2d426e407"
 
-  depends_on "python" => :build
+  depends_on "python3" => :build
+  depends_on "openblas"
   depends_on "numpy"
   depends_on "libxml2"
+  depends_on "libxslt"
 
   def install
-    mkdir_p "#{prefix}/lib/python2.7/site-packages"
-    ENV["PYTHONPATH"]= "#{prefix}/lib/python2.7/site-packages:$PYTHONPATH"
-    system "python", "setup.py", "install", "--prefix=#{prefix}"
+    mkdir_p "#{lib}/python3.6/site-packages"
+    ENV["PYTHONPATH"]= "#{lib}/python3.6/site-packages:$PYTHONPATH"
+    system "python3", "setup.py", "install", "--prefix=#{prefix}"
   end
 
   test do
