@@ -16,6 +16,7 @@ class Openms < Formula
   depends_on "bzip2"
   depends_on "xerces-c"
   depends_on "homebrew/science/seqan"
+  depends_on "homebrew/science/coinmp"
   depends_on "eigen"
   depends_on "doxygen"
 
@@ -23,11 +24,11 @@ class Openms < Formula
     mkdir("contrib-build") unless File.directory?("contrib-build")
     cd("contrib-build")
     system "cmake", "-DBUILD_TYPE=WILDMAGIC", "../contrib"
-    system "cmake", "-DBUILD_TYPE=COINOR", "../contrib"
     mkdir("../OpenMS-build") unless File.directory?("OpenMS-build")
     cd("../OpenMS-build")
-    system "cmake", "-DOPENMS_CONTRIB_LIBS=../contrib-build", "-DBOOST_USE_STATIC=OFF", "--prefix=#{prefix}", "../"
+    system "cmake", "-DOPENMS_CONTRIB_LIBS=#{pwd}/../contrib-build", "-DBOOST_USE_STATIC=OFF", "--prefix=#{prefix}", "../", *std_cmake_args
     system "make"
+    system "make", "install"
   end
 
   test do
