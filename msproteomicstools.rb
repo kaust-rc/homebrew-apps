@@ -14,12 +14,13 @@ class Msproteomicstools < Formula
     mkdir_p "#{libexec}/lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", "#{libexec}/lib/python2.7/site-packages"
     cp_r("test", prefix.to_s)
-    system "pip", "install", "cython"
-    system "pip", "install", "numpy"
-    system "python", *Language::Python.setup_install_args(libexec)
+    system "pip2", "install", "cython"
+    system "pip2", "install", "numpy"
+    system "python2", *Language::Python.setup_install_args(libexec)
+    # lib.install(libexec/"lib")
   end
 
   test do
-    system "python", "#{prefix}/test/test_import.py"
+    system "python2", "#{prefix}/test/test_import.py"
   end
 end
