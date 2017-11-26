@@ -34,6 +34,6 @@ class Openms < Formula
   end
 
   test do
-    system "FileInfo"
+    assert_predicate bin/"FileInfo", :exist?
   end
 end
