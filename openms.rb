@@ -25,8 +25,12 @@ class Openms < Formula
     system "cmake", "-DBUILD_TYPE=SEQAN", "../contrib"
     mkdir("../OpenMS-build") unless File.directory?("OpenMS-build")
     cd("../OpenMS-build")
-    system "cmake", "-DOPENMS_CONTRIB_LIBS=#{pwd}/../contrib-build", "-DBOOST_USE_STATIC=OFF", "--prefix=#{prefix}", "../", *std_cmake_args
-    system "make", "-s"
+    system "cmake", "-DOPENMS_CONTRIB_LIBS=#{pwd}/../contrib-build",
+                    "-DBOOST_USE_STATIC=OFF",
+                    "-DWITH_GUI=off", "-DHAS_XSERVER=off",
+                    "--prefix=#{prefix}", "../", *std_cmake_args
+    system "make"
+    system "make", "install"
   end
 
   test do
