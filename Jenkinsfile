@@ -1,6 +1,6 @@
 #!groovy
 
-def nodes = ['centos:6']
+def nodes = ['ubuntu:xenial', 'centos:6', 'centos:7']
 for (x in nodes) {
     def mynode = x
 
@@ -15,8 +15,6 @@ for (x in nodes) {
                         stage("${mynode}: Run tests") {
                             buildStatus = "PREPARING"
                             checkout scm
-                            sh "mount"
-                            sh "env|sort"
                             sh script: "scripts/tap.kaust.apps.sh"
 
                             buildStatus = "TESTING"
