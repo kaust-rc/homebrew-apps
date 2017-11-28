@@ -15,6 +15,8 @@ for (x in nodes) {
                         stage("${mynode}: Run tests") {
                             buildStatus = "PREPARING"
                             checkout scm
+                            sh "mount"
+                            sh "env|sort"
                             sh script: "scripts/tap.kaust.apps.sh"
 
                             buildStatus = "TESTING"
