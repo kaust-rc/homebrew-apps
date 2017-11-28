@@ -9,7 +9,7 @@ for (x in nodes) {
             try {
                 buildStatus = "CREATING CONTAINER"
 
-                docker.withRegistry('http://10.254.154.110', 'docker-registry-credentials') {
+                docker.withRegistry('https://kcr.kaust.edu.sa', 'docker-registry-credentials') {
                     // Let's mount Jenkins HOME so we can speedup tests
                     docker.image("${mynode}").inside("-v /home/jenkins:/home/jenkins:rw,z") {
                         stage("${mynode}: Run tests") {
