@@ -1,6 +1,6 @@
 #!groovy
 
-def nodes = ['ubuntu:xenial', 'centos:6', 'centos:7']
+def nodes = ['centos:6']
 for (x in nodes) {
     def mynode = x
 
