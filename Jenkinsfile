@@ -18,7 +18,7 @@ for (x in nodes) {
                             sh script: "scripts/tap.kaust.apps.sh"
 
                             buildStatus = "TESTING"
-                            def formulae = sh script: "scripts/list.formulae", returnStdout: true
+                            def formulae = sh script: "scripts/list.formulae ${mynode}", returnStdout: true
                             println "Formulae to test: ${formulae}"
 
                             // We CANNOT run tests in parallel because Linuxbrew complains
