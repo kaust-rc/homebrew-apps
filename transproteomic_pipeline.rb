@@ -1,4 +1,4 @@
-class TransProteomicPipeline < Formula
+class TransproteomicPipeline < Formula
   desc "TransProteomicPipeline: Collection of proteomics tools"
   homepage "http://tools.proteomecenter.org/wiki/index.php?title=Software:TPP"
   url "https://github.com/iracooke/tpp/archive/v4.8.0p9.tar.gz"
@@ -22,7 +22,7 @@ class TransProteomicPipeline < Formula
   def install
     cd "trans_proteomic_pipeline/src/" do
       File.open("Makefile.config.incl", "wb") do |f|
-        f.write "TPP_ROOT=#{prefix}/\nTPP_WEB=#{prefix}/web/\nCGI_USERS_DIR=#{prefix}/cgi-bin/"
+        f.write "TPP_ROOT=#{prefix}/\nTPP_WEB=#{prefix}/web/\nCGI_USERS_DIR=#{prefix}/cgi-bin/\nBOOST_INCL=-I#{HOMEBREW_PREFIX}/opt/boost/include/boost/\nBOOST_LIBDIR=#{HOMEBREW_PREFIX}/opt/boost/lib"
       end
 
       mkdir_p prefix/"web"
@@ -37,7 +37,7 @@ class TransProteomicPipeline < Formula
       ENV.delete("CC")
       ENV.delete("CXX")
 
-      system "make", "SRC_DIR=#{build_path}"
+      system "make", "SRC_ROOT=#{buildpath}/trans_proteomic_pipeline/src/"
       system "make", "install"
     end
   end
