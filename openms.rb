@@ -21,8 +21,6 @@ class Openms < Formula
   depends_on "eigen"
 
   def install
-    ENV.prepend_create_path "PATH", "/usr/lib64/qt4/bin" if File.exist?("/etc/redhat-release")
-    qmake_path = `which qmake`
     mkdir("contrib-build") unless File.directory?("contrib-build")
     cd("contrib-build")
     system "cmake", "-DBUILD_TYPE=WILDMAGIC", "../contrib"
@@ -32,7 +30,6 @@ class Openms < Formula
     cd("../OpenMS-build")
     system "cmake", "-DOPENMS_CONTRIB_LIBS=#{pwd}/../contrib-build",
                     "-DBOOST_USE_STATIC=OFF",
-                    "-DQT_QMAKE_EXECUTABLE=#{qmake_path}",
                     "-DWITH_GUI=off", "-DHAS_XSERVER=off",
                     "--prefix=#{prefix}", "../", *std_cmake_args
     system "make"
