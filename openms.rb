@@ -1,6 +1,6 @@
 class Openms < Formula
   desc "Open-source software C++ library for LC-MS data management & analyses"
-  homepage "http://www.openms.de"
+  homepage "https://www.openms.de"
   url "https://github.com/OpenMS/OpenMS/releases/download/Release2.2.0/OpenMS-2.2.0-src.tar.gz"
   version "2.2"
   sha256 "61e7d24890abb6f462e2f026efb0dc88b84639b228d96e919c8074d3b11d286e"
