@@ -23,6 +23,11 @@ Documentation
 
 [**Full documentation**](https://kaust-apps.readthedocs.io/) for KAUST Apps is the first place to look.
 
+### Known Issues
+OpenMS formula currently works only on Ubuntu. It requires as well the installation of qt4 packages:
+  * For Ubuntu Trusty, run: $ sudo apt-get install libqt4-core libqt4-dev
+  * For Ubuntu Xenial, run: $ sudo apt-get install qt4-default
+
 ### Ask the experts
 
 Ask questions, request new software, open issues, get answers from your peers using Slack:
