@@ -5,8 +5,8 @@ class Openms < Formula
   version "2.2"
   sha256 "61e7d24890abb6f462e2f026efb0dc88b84639b228d96e919c8074d3b11d286e"
 
-## Adding the images to be skipped while testing 
-# KAUST_SKIP centos:6 centos:7
+  ## Adding the images to be skipped while testing
+  # KAUST_SKIP centos:6 centos:7
 
   depends_on "cmake" => :build
   depends_on "autoconf" => :build
