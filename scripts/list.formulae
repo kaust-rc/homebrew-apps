@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -xe
+
+# OS we're testing formulae on
+os="${1:-DUMMY_OS_VALUE}"
+
+# Let's see where we're running
+myroot=$(cd "$(dirname "$0")"; pwd)
+cd "$(dirname "${myroot}")"
+
+# List all formulae ending in .rb in this folder
+output=""
+for f in *.rb; do
+    if ! grep KAUST_SKIP "${f}" | grep "${os}"; then
+        output+="$(basename "${f}" .rb) "
+    fi
+done
+
+output=${output% }
+echo "${output}"
