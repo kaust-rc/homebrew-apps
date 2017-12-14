@@ -5,6 +5,9 @@ class Activeperl < Formula
   version "5.26.0.2600"
   sha256 "df84fab28a3783e5d0d540e626a8e4b2b3000b9e9c16219736dac21c608b7ec4"
 
+  ## Adding the images to be skipped while testing
+  # KAUST_SKIP centos:6
+
   depends_on "glibc"
 
   def install
