@@ -12,7 +12,7 @@ cd "$(dirname "${myroot}")"
 # List all formulae ending in .rb in this folder
 output=""
 for f in *.rb; do
-    if ! grep KAUST_SKIP "${f}" | grep "${os}"; then
+    if ! grep KAUST_SKIP "${f}" | grep "${os}" 1>&2 2>/dev/null; then
         output+="$(basename "${f}" .rb) "
     fi
 done
