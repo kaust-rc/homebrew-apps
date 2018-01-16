@@ -18,6 +18,8 @@ class TransproteomicPipeline < Formula
   depends_on "activeperl"
   depends_on "boost"
 
+  conflicts_with "proteowizard"
+
   def install
     cd "trans_proteomic_pipeline/src/" do
       rm_rf("Makefile.incl", :secure=>true)
@@ -26,7 +28,7 @@ class TransproteomicPipeline < Formula
         f.write"TPP_ROOT=#{prefix}/\nTPP_WEB=#{prefix}/web/\nCGI_USERS_DIR=#{prefix}/cgi-bin/\nBOOST_INCL=-I#{HOMEBREW_PREFIX}/opt/boost/include/boost/\n"
         f.write"BOOST_LIBDIR=#{HOMEBREW_PREFIX}/opt/boost/lib/\nBOOST_THREAD_LIB=$(BOOST_LIBDIR)libboost_thread-mt.a\n"
         f.write"GD_LIB=#{HOMEBREW_PREFIX}/opt/gd/lib/libgd.a\nGD_INCL=#{HOMEBREW_PREFIX}/opt/gd/include/\n"
-        f.write"PERL_BIN=#{HOMEBREW_PREFIX}/bin/perl\nSRC_ROOT=#{buildpath}/trans_proteomic_pipeline/src/"
+        f.write"PERL_BIN=#{HOMEBREW_PREFIX}/bin/perl\n"
       end
 
       mkdir_p prefix/"web"
@@ -44,7 +46,7 @@ class TransproteomicPipeline < Formula
       # ENV["CXX"]="/usr/bin/g++"
 
       system "make", "SRC_ROOT=#{buildpath}/trans_proteomic_pipeline/src/"
-      system "make", "install"
+      system "make", "install", "SRC_ROOT=#{buildpath}/trans_proteomic_pipeline/src/"
     end
   end
 
