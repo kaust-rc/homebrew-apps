@@ -17,23 +17,22 @@ class TransproteomicPipeline < Formula
   depends_on "gd"
   depends_on "activeperl"
   depends_on "boost"
-  depends_on "gnuplot"
 
   def install
     cd "trans_proteomic_pipeline/src/" do
       rm_rf("Makefile.incl", :secure=>true)
-      File.open("Makefile.incl", "wb") do |f|
-        f.write open("https://raw.githubusercontent.com/kaust-rc/homebrew-apps/transproteomic/archive/transproteomic_pipeline/Makefile.incl").read
-      end
+      system "wget", "-q", "https://raw.githubusercontent.com/kaust-rc/homebrew-apps/transproteomic/archive/transproteomic_pipeline/Makefile.incl"
       File.open("Makefile.config.incl", "wb") do |f|
         f.write"TPP_ROOT=#{prefix}/\nTPP_WEB=#{prefix}/web/\nCGI_USERS_DIR=#{prefix}/cgi-bin/\nBOOST_INCL=-I#{HOMEBREW_PREFIX}/opt/boost/include/boost/\n"
         f.write"BOOST_FILESYSTEM_LIB=$(BOOST_LIBDIR)libboost_filesystem.a\nBOOST_IOSTREAMS_LIB= $(BOOST_LIBDIR)libboost_iostreams.a\n"
         f.write"BOOST_THREAD_LIB=$(BOOST_LIBDIR)libboost_thread-mt.a\nBOOST_REGEX_LIB= $(BOOST_LIBDIR)libboost_regex.a\nBOOST_SERIALIZATION_LIB= $(BOOST_LIBDIR)libboost_serialization.a\n"
         f.write"BOOST_SYSTEM_LIB= $(BOOST_LIBDIR)libboost_system.a\nBOOST_PROGRAM_OPTIONS_LIB= $(BOOST_LIBDIR)libboost_program_options.a\n"
         f.write"BOOST_LIBS=$(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB) $(BOOST_IOSTREAMS_LIB) $(BOOST_THREAD_LIB) $(BOOST_Z_LIB) $(BOOST_REGEX_LIB) $(BOOST_PROGRAM_OPTIONS_LIB) $(BOOST_SERIALIZATION_LIB)\n"
-        f.write"GNUPLOT_BINARY=#{HOMEBREW_PREFIX}/bin/gnuplot\nGD_LIB=#{HOMEBREW_PREFIX}/opt/gd/lib/libgd.a\nGD_INCL=#{HOMEBREW_PREFIX}/opt/gd/include/\n"
-        f.write"PERL_BIN=#{HOMEBREW_PREFIX}/bin/perl\nSRC_ROOT=#{buildpath}/trans_proteomic_pipeline/src/"
+        f.write"GD_LIB=#{HOMEBREW_PREFIX}/opt/gd/lib/libgd.a\nGD_INCL=#{HOMEBREW_PREFIX}/opt/gd/include/\n"
+        f.write"PERL_BIN=#{HOMEBREW_PREFIX}/bin/perl\n"#SRC_ROOT=#{buildpath}/trans_proteomic_pipeline/src/"
       end
+
+      # inreplace "../extern/ProteoWizard/Makefile.pwiz.incl", "$(PWIZ_LIB): $(BOOST_LIBS) $(OBJS_PWIZ)", "$(PWIZ_LIB): $(OBJS_PWIZ)"
 
       mkdir_p prefix/"web"
       mkdir_p prefix/"cgi-bin"
@@ -49,7 +48,7 @@ class TransproteomicPipeline < Formula
       # ENV["CC"]="/usr/bin/gcc"
       # ENV["CXX"]="/usr/bin/g++"
 
-      system "make"
+      system "make", "SRC_ROOT=#{buildpath}/trans_proteomic_pipeline/src/"
       system "make", "install"
     end
   end
