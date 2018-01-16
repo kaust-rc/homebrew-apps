@@ -16,7 +16,7 @@ class TransproteomicPipeline < Formula
 
   depends_on "gd"
   depends_on "activeperl" if File.exist?("/etc/debian_version")
-  depends_on "perl" if File.exist?("/etc/redhat-release") ##since active perl doesn't work on centos 6
+  depends_on "perl" if File.exist?("/etc/redhat-release") # since active perl doesn't work on centos 6
   depends_on "boost"
 
   conflicts_with "proteowizard"
