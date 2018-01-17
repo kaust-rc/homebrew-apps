@@ -13,7 +13,10 @@ class TransproteomicPipeline < Formula
 
   # doi "10.1007/978-1-60761-444-9_15"
   # tag "bioinformatics"
-
+  
+  ## Adding the images to be skipped while testing
+  # KAUST_SKIP centos:6 centos:7
+  
   depends_on "gd"
   depends_on "activeperl" if File.exist?("/etc/debian_version")
   depends_on "perl" if File.exist?("/etc/redhat-release") # since active perl doesn't work on centos 6
