@@ -26,7 +26,7 @@ class TransproteomicPipeline < Formula
   def install
     cd "trans_proteomic_pipeline/src/" do
       rm_rf("Makefile.incl", :secure=>true)
-      system "wget", "-q", "https://raw.githubusercontent.com/kaust-rc/homebrew-apps/transproteomic/archive/transproteomic_pipeline/Makefile.incl"
+      system "wget", "-q", "https://raw.githubusercontent.com/kaust-rc/homebrew-apps/master/archive/transproteomic_pipeline/Makefile.incl"
       File.open("Makefile.config.incl", "wb") do |f|
         f.write"TPP_ROOT=#{prefix}/\nTPP_WEB=#{prefix}/web/\nCGI_USERS_DIR=#{prefix}/cgi-bin/\nBOOST_INCL=-I#{HOMEBREW_PREFIX}/opt/boost/include/boost/\n"
         f.write"BOOST_LIBDIR=#{HOMEBREW_PREFIX}/opt/boost/lib/\nBOOST_THREAD_LIB=$(BOOST_LIBDIR)libboost_thread-mt.a\n"
