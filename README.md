@@ -25,11 +25,13 @@ Documentation
 
 ### Known Issues
 
-OpenMS formula currently works only on Ubuntu. It requires as well the installation of qt4 packages:
+- OpenMS formula currently works only on Ubuntu. It requires as well the installation of qt4 packages:
   * For Ubuntu Trusty, run: $ sudo apt-get install libqt4-core libqt4-dev
   * For Ubuntu Xenial, run: $ sudo apt-get install qt4-default
 
-Activeperl formula requires glibc >=2.15. Thus it's not working on Centos 6 as this requirement is not met. However, it works properly on Ubuntu Xenial, Ubuntu Trusty, and Centos 7.
+- Activeperl formula requires glibc >=2.15. Thus it's not working on Centos 6 as this requirement is not met. However, it works properly on Ubuntu Xenial, Ubuntu Trusty, and Centos 7.
+
+- Transproteomic Pipeline formula works only on Ubuntu. Transproteomic Pipeline package includes Proteowizard as a thirdparty software, so its formula conflicts with Proteowizard's formula.
 
 ### Ask the experts
 
