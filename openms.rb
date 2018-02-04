@@ -17,7 +17,6 @@ class Openms < Formula
   depends_on "glpk"
   depends_on "libsvm"
   depends_on "bzip2"
-  depends_on "homebrew/science/coinmp"
   depends_on "eigen"
 
   def install
@@ -26,6 +25,7 @@ class Openms < Formula
     system "cmake", "-DBUILD_TYPE=WILDMAGIC", "../contrib"
     system "cmake", "-DBUILD_TYPE=XERCESC", "../contrib"
     system "cmake", "-DBUILD_TYPE=SEQAN", "../contrib"
+    system "cmake", "-DBUILD_TYPE=COINOR", "../contrib"
     mkdir("../OpenMS-build") unless File.directory?("OpenMS-build")
     cd("../OpenMS-build")
     system "cmake", "-DOPENMS_CONTRIB_LIBS=#{pwd}/../contrib-build",
